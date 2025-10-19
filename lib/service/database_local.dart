@@ -1,5 +1,6 @@
 import 'package:sqflite/sqflite.dart';
-import '../manger/model.dart';
+
+import '../model/model.dart';
 
 Database? database;
 
@@ -18,7 +19,6 @@ Future<void> createDatabase() async {
     },
   );
 }
-
 Future<void> insertValue(Data task) async {
   await database!.insert(
     'Test',
@@ -31,4 +31,21 @@ Future<void> insertValue(Data task) async {
 Future<List<Data>> getData() async {
   final List<Map<String, dynamic>> maps = await database!.query('Test');
   return List.generate(maps.length, (i) => Data.fromMap(maps[i]));
+}
+Future<void> remove(int id) async {
+  await database!.delete(
+    'Test',
+    where: 'id = ?',
+    whereArgs: [id],
+  );
+  print('Deleted task with id $id');
+}
+
+Future<void> edit(Data task) async {
+  await database!.update(
+    'Test',
+    task.toMap(),
+    where: 'id = ?',
+    whereArgs: [task.id],
+  );
 }

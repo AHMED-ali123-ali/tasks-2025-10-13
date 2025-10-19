@@ -5,7 +5,6 @@ class Data {
  final String time;
  final String status;
 
-
   Data({
     this.id,
     required this.title,
